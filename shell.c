@@ -1,48 +1,6 @@
 #include "shell.h"
 
 /**
- * execute_com - implementing the prompt
- * @com: it holds the name of the executable
- * @back: to determine whether command should be executed in the background
- *
- * Return: void
- */
-void execute_com(char *com, int back)
-{
-	pid_t pid = fork();
-	int status;
-
-	if (pid < 0)
-	{
-		perror("fork failed");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		if (execlp(com, com, (char *)NULL) == -1)
-		{
-			perror("Command failed");
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		if (!back)
-		{
-			if (waitpid(pid, &status, 0) == -1)
-			{
-				perror("Error from child process");
-				exit(EXIT_FAILURE);
-			}
-			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-			{
-				fprintf(stderr, "Exit status\n");
-			}
-		}
-	}
-}
-
-/**
  * main - entry point
  *
  * Return: 0 always
