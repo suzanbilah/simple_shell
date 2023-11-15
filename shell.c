@@ -27,14 +27,14 @@ void execute_com(char *com, int back)
 	}
 	else
 	{
-		if (!background)
+		if (!back)
 		{
 			if (waitpid(pid, &status, 0) == -1)
 			{
 				perror("Error from child process");
 				exit(EXIT_FAILURE);
 			}
-			if (WIFEXITED(status) && WEITSTATUS(status) != 0)
+			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			{
 				fprintf(stderr, "Exit status\n");
 			}
@@ -54,7 +54,7 @@ int main(void)
 
 	while (1)
 	{
-		printf("$v");
+		printf("$ ");
 		if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL)
 		{
 			if (feof(stdin))
@@ -69,8 +69,15 @@ int main(void)
 			}
 		}
 		input[strcspn(input, "\n")] = '\0';
+		
 		if (strlen(input) == 0)
 			continue;
+		
+		if (input[strlen(input) -1] == '&')
+		{
+			back = 1;
+			input[strlen(input) - 1] = '\0';
+		}
 
 		if (strcmp(input, "exit") == 0)
 			exit(EXIT_SUCCESS);
