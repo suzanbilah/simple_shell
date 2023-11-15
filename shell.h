@@ -12,8 +12,9 @@
 #include <errno.h>
 #include <limits.h>
 #define MAX_INPUT_SIZE 1024
+#define MAX_TOKENS 100
 
-void execute_com(char *com, int back);
+void execute_com(char **tokens, int back);
 
 /**
 char *findpath(void);
