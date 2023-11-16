@@ -20,6 +20,7 @@
 extern char *alias_name[MAX_ALIASES];
 extern char *alias_values[MAX_ALIASES];
 extern int alias_count;
+extern char **environ;
 
 void execute_com(char **com, int back);
 int token_input(char *input, char **token);

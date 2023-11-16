@@ -64,20 +64,20 @@ int token_input(char *input, char **token)
 		token_end = token_start;
 		while (*token_end != '\0' && *token_end
 				!= ' ' && *token_end != '\t')
+		{
 			++token_end;
+		}
+		if (token_start != token_end)
+		{
+			token[token_count] = (char *)malloc(token_length + 1);
+			strncpy(token[token_count], token_start, token_length);
+			token[token_count][token_length] = '\0';
+			++token_count;
+		}
+		token_start = token_end + 1;
 	}
-	if (token_start != token_end)
-	{
-		token[token_count] = (char *)malloc(token_length + 1);
-		strncpy(token[token_count], token_start, token_length);
-		token[token_count][token_length] = '\0';
-		++token_count;
-	}
-	token_start = token_end + 1;
-}
-token[token_count] = NULL;
-
-return (token_count);
+	token[token_count] = NULL;
+	return (token_count);
 }
 
 /**

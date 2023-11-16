@@ -36,7 +36,7 @@ void change_dir(char *directory)
 		}
 		else
 		{
-			perrpr("Error updating PWD");
+			perror("Error updating PWD");
 		}
 	}
 }

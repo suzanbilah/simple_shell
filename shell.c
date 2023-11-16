@@ -8,9 +8,10 @@
 int main(void)
 {
 	char input[MAX_INPUT_SIZE];
-	int background = background_check(token, &token_count);
-	int token_count = token_input(input, token);
 	char *token[MAX_TOKENS];
+	int token_count = token_input(input, token);
+	char **com = NULL;
+	int back = 0;
 
 	while (1)
 	{
