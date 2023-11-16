@@ -12,7 +12,7 @@ void execute_com(char **com, int back)
 	pid_t pid = fork();
 	int status;
 
-	if (pid < 0)
+	if (pid == -1)
 	{
 		perror("Fork failed");
 		exit(EXIT_FAILURE);
@@ -29,11 +29,7 @@ void execute_com(char **com, int back)
 	{
 		if (!back)
 		{
-			if (waitpid(pid, &status, 0) == -1)
-			{
-				perror("Error");
-				exit(EXIT_FAILURE);
-			}
+			waitpid(pid, &status, 0);
 			if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 			{
 				fprintf(stderr, "Command returned non-zero\n");
@@ -53,7 +49,7 @@ int token_input(char *input, char **token)
 	int token_count = 0;
 	char *token_start = input;
 	char *token_end = input;
-	size_t token_length = token_end - token_start;
+	size_t token_length;
 
 	while (*token_end != '\0')
 	{
@@ -67,6 +63,7 @@ int token_input(char *input, char **token)
 		{
 			++token_end;
 		}
+		token_length = token_end - token_start;
 		if (token_start != token_end)
 		{
 			token[token_count] = (char *)malloc(token_length + 1);
