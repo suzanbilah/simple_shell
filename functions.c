@@ -107,10 +107,14 @@ void free_token(char **token)
 {
 	int i = 0;
 
-	for (i = 0; token[i] != NULL; ++i)
+	if (token == NULL)
+		return;
+	while (token[i] != NULL)
 	{
 		free(token[i]);
+		i++;
 	}
+	free(token);
 }
 
 /**
