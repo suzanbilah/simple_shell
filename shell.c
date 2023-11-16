@@ -8,11 +8,13 @@
 int main(void)
 {
 	char input[MAX_INPUT_SIZE];
-	int back = 0;
+	int background = background_check(token, &token_count);
+	int token_count = token_input(input, token);
+	char *token[MAX_TOKENS];
 
 	while (1)
 	{
-		printf("$ ");
+		display_prompt();
 		if (fgets(input, MAX_INPUT_SIZE, stdin) == NULL)
 		{
 			if (feof(stdin))
@@ -22,26 +24,20 @@ int main(void)
 			}
 			else
 			{
-				perror("error reading input");
+				perror("Error reading input");
 				exit(EXIT_FAILURE);
 			}
 		}
 		input[strcspn(input, "\n")] = '\0';
-		
-		if (strlen(input) == 0)
+		if (token_count == 0)
 			continue;
-		
-		if (input[strlen(input) -1] == '&')
+		if (handle_builtin(token) == 1)
 		{
-			back = 1;
-			input[strlen(input) - 1] = '\0';
+			free_token(token);
+			continue;
 		}
-
-		if (strcmp(input, "exit") == 0)
-			exit(EXIT_SUCCESS);
-
-		execute_com(input, back);
+		execute_com(com, back);
+		free_token(token);
 	}
-
 	return (0);
 }
